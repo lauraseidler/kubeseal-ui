@@ -1,0 +1,25 @@
+---
+version: "3.8"
+
+services:
+  ui:
+    image: node:17.4.0-alpine
+    working_dir: /srv
+    command: npm run dev
+    ports:
+      # Main app
+      - "3000:3000"
+      # Live reload
+      - "8002:8002"
+    volumes:
+      - ./src:/srv
+      - node-modules:/srv/node_modules
+      - remix-build:/srv/build
+      - remix-cache:/srv/.cache
+      - remix-public-build:/srv/public/build
+
+volumes:
+  node-modules:
+  remix-build:
+  remix-cache:
+  remix-public-build:
