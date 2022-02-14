@@ -3,9 +3,11 @@ version: "3.8"
 
 services:
   ui:
-    image: node:17.4.0-alpine
+    build: src
     working_dir: /srv
     command: npm run dev
+    env_file:
+      - .env
     ports:
       # Main app
       - "3000:3000"
