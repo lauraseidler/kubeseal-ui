@@ -3,7 +3,9 @@ version: "3.8"
 
 services:
   ui:
-    build: src
+    build:
+      context: src
+      target: base
     working_dir: /srv
     command: npm run dev
     env_file:
