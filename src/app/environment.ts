@@ -1,29 +1,21 @@
-const VARIABLE_PREFIX = 'KUBESEAL_CERTIFICATE_';
+import fs from 'fs/promises';
+
+const CERTIFICATES_PATH = process.env.CERTIFICATES_PATH || '/srv/certificates';
 
 export type Environment = {
     name: string;
-    certificate: string;
+    path: string;
 };
 
-export function getEnvironments() {
-    const allEnvironmentVariables = Object.keys(process.env);
+export async function getEnvironments() {
+    // Get all files in the directory
+    const files = await fs.readdir(CERTIFICATES_PATH);
 
-    const relevantEnvironmentVariables = allEnvironmentVariables.filter(
-        (variableName) => variableName.startsWith(VARIABLE_PREFIX)
-    );
-
-    const environments: Environment[] = relevantEnvironmentVariables.map(
-        (variableName) => ({
-            // Remove prefix and use rest of variable as environment name
-            name: variableName.replace(VARIABLE_PREFIX, ''),
-
-            // Certificates are base64 encoded
-            certificate: Buffer.from(
-                process.env[variableName]!,
-                'base64'
-            ).toString('ascii'),
-        })
-    );
+    // Create an array with the data we need
+    const environments: Environment[] = files.map((fileName) => ({
+        name: fileName.replace(/\.\w*$/, '').toUpperCase(),
+        path: `${CERTIFICATES_PATH}/${fileName}`,
+    }));
 
     return environments;
 }
