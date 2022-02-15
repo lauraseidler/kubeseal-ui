@@ -1,29 +1,33 @@
-const VARIABLE_PREFIX = 'KUBESEAL_CERTIFICATE_';
+import { Storage } from '@google-cloud/storage';
+
+const BUCKET_URL = process.env.BUCKET_URL;
 
 export type Environment = {
     name: string;
-    certificate: string;
+    path: string;
 };
 
-export function getEnvironments() {
-    const allEnvironmentVariables = Object.keys(process.env);
+async function getEnvironmentsFromGoogleBucket(
+    bucketName: string
+): Promise<Environment[]> {
+    const storage = new Storage();
 
-    const relevantEnvironmentVariables = allEnvironmentVariables.filter(
-        (variableName) => variableName.startsWith(VARIABLE_PREFIX)
-    );
+    const [files] = await storage.bucket(bucketName).getFiles();
 
-    const environments: Environment[] = relevantEnvironmentVariables.map(
-        (variableName) => ({
-            // Remove prefix and use rest of variable as environment name
-            name: variableName.replace(VARIABLE_PREFIX, ''),
+    return files.map((file) => ({
+        name: file.metadata.name
+            .replace(/\.\w*$/, '')
+            .replace('-', ' ')
+            .toUpperCase(),
+        path: file.metadata.mediaLink,
+    }));
+}
 
-            // Certificates are base64 encoded
-            certificate: Buffer.from(
-                process.env[variableName]!,
-                'base64'
-            ).toString('ascii'),
-        })
-    );
+export async function getEnvironments() {
+    // If we have a Google bucket, download objects from there
+    if (BUCKET_URL && BUCKET_URL.startsWith('gs://')) {
+        return getEnvironmentsFromGoogleBucket(BUCKET_URL.replace('gs://', ''));
+    }
 
-    return environments;
+    throw new Error('Unsupported or no bucket url!');
 }

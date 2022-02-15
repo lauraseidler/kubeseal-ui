@@ -1,5 +1,4 @@
 import { exec } from 'child_process';
-import fs from 'fs/promises';
 import { getEnvironments } from './environment';
 
 interface Options {
@@ -10,17 +9,11 @@ interface Options {
 }
 
 export async function sealSecret(options: Options) {
-    const environments = getEnvironments();
+    const environments = await getEnvironments();
 
-    const certificateFileName = `/tmp/${options.cluster}-certificate.txt`;
-
-    // Write certificate to disk (while we're not mounting certificates as files)
-    await fs.writeFile(
-        certificateFileName,
-        environments.find(
-            (environment) => environment.name === options.cluster
-        )!.certificate
-    );
+    const matchingEnvironment = environments.find(
+        (environment) => environment.name === options.cluster
+    )!;
 
     return new Promise<string>((resolve, reject) => {
         const flags = [
@@ -28,7 +21,7 @@ export async function sealSecret(options: Options) {
             `--from-file /dev/stdin`,
             `--namespace ${options.namespace}`,
             `--name ${options.name}`,
-            `--cert ${certificateFileName}`,
+            `--cert ${matchingEnvironment.path}`,
 
             // Kubeseal is looking for a kube config - nope :)
             `--kubeconfig /dev/null`,

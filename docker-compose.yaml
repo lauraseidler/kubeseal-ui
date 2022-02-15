@@ -8,8 +8,9 @@ services:
       target: base
     working_dir: /srv
     command: npm run dev
-    env_file:
-      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/credentials.json
+      BUCKET_URL: gs://kubeseal-certificates-test
     ports:
       # Main app
       - "3000:3000"
@@ -17,6 +18,7 @@ services:
       - "8002:8002"
     volumes:
       - ./src:/srv
+      - ./credentials.json:/var/secrets/google/credentials.json
       - node-modules:/srv/node_modules
       - remix-build:/srv/build
       - remix-cache:/srv/.cache
