@@ -52,23 +52,26 @@ export default function Index() {
                 <fieldset>
                     <legend>Cluster</legend>
 
-                    {environments.map((environment) => (
-                        <Fragment key={environment.name}>
-                            <input
-                                type="radio"
-                                name="cluster"
-                                value={environment.name}
-                                id={`cluster-${environment.name}`}
-                            />
+                    {environments
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((environment) => (
+                            <Fragment key={environment.name}>
+                                <input
+                                    type="radio"
+                                    name="cluster"
+                                    value={environment.name}
+                                    id={`cluster-${environment.name}`}
+                                />
 
-                            <label
-                                className="label-inline"
-                                htmlFor={`cluster-${environment.name}`}
-                            >
-                                {environment.name}
-                            </label>
-                        </Fragment>
-                    ))}
+                                <label
+                                    className="label-inline"
+                                    htmlFor={`cluster-${environment.name}`}
+                                >
+                                    {environment.name}
+                                </label>
+                                <br />
+                            </Fragment>
+                        ))}
                 </fieldset>
 
                 <label htmlFor="namespace">Namespace</label>
