@@ -3,8 +3,9 @@ import { getEnvironments } from './environment';
 
 interface Options {
     cluster: string;
-    namespace: string;
-    name: string;
+    scope: string;
+    namespace: string | null;
+    name: string | null;
     value: string;
 }
 
@@ -19,9 +20,10 @@ export async function sealSecret(options: Options) {
         const flags = [
             `--raw`,
             `--from-file /dev/stdin`,
-            `--namespace ${options.namespace}`,
-            `--name ${options.name}`,
-            `--cert ${matchingEnvironment.path}`,
+            `--scope ${options.scope}`,
+            options.namespace ? `--namespace ${options.namespace}` : '',
+            options.name ? `--name ${options.name}` : '',
+            `--cert "${matchingEnvironment.path}"`,
 
             // Kubeseal is looking for a kube config - nope :)
             `--kubeconfig /dev/null`,

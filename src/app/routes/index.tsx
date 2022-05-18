@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { ActionFunction, Form, useActionData, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { getEnvironments } from '~/environment';
@@ -8,6 +8,7 @@ export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
 
     const cluster = formData.get('cluster');
+    const scope = formData.get('scope');
     const namespace = formData.get('namespace');
     const name = formData.get('name');
     const value = formData.get('value');
@@ -17,13 +18,17 @@ export const action: ActionFunction = async ({ request }) => {
         'Please select a cluster'
     );
 
+    invariant(typeof scope === 'string' && !!scope, 'Please select a scope');
+
     invariant(
-        typeof namespace === 'string' && !!namespace,
+        (typeof namespace === 'string' && !!namespace) ||
+            (namespace === null && scope !== 'strict'),
         'Please provide the secret namespace'
     );
 
     invariant(
-        typeof name === 'string' && !!name,
+        (typeof name === 'string' && !!name) ||
+            (name === null && scope !== 'strict'),
         'Please provide the secret name'
     );
 
@@ -32,7 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
         'Please provide the secret value'
     );
 
-    return sealSecret({ cluster, namespace, name, value });
+    return sealSecret({ cluster, scope, namespace, name, value });
 };
 
 export const loader = async () => {
@@ -43,6 +48,8 @@ export default function Index() {
     const environments = useLoaderData<Awaited<ReturnType<typeof loader>>>();
 
     const actionData = useActionData();
+
+    const [isClusterWide, setIsClusterWide] = useState(false);
 
     return (
         <main style={{ padding: '1rem' }}>
@@ -74,11 +81,48 @@ export default function Index() {
                         ))}
                 </fieldset>
 
-                <label htmlFor="namespace">Namespace</label>
-                <input type="text" id="namespace" name="namespace" />
+                <fieldset>
+                    <legend>Scope</legend>
 
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" />
+                    <input
+                        type="radio"
+                        name="scope"
+                        value="strict"
+                        id="scope-strict"
+                        onChange={(e) => setIsClusterWide(!e.target.checked)}
+                        defaultChecked
+                    />
+
+                    <label className="label-inline" htmlFor="scope-strict">
+                        default (strict)
+                    </label>
+                    <br />
+
+                    <input
+                        type="radio"
+                        name="scope"
+                        value="cluster-wide"
+                        id="scope-cluster-wide"
+                        onChange={(e) => setIsClusterWide(e.target.checked)}
+                    />
+
+                    <label
+                        className="label-inline"
+                        htmlFor="scope-cluster-wide"
+                    >
+                        cluster-wide
+                    </label>
+                    <br />
+                </fieldset>
+
+                {!isClusterWide && (
+                    <Fragment>
+                        <label htmlFor="namespace">Namespace</label>
+                        <input type="text" id="namespace" name="namespace" />
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" name="name" />
+                    </Fragment>
+                )}
 
                 <label htmlFor="value">Value</label>
                 <input type="text" id="value" name="value" />
