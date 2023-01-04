@@ -21,6 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Python for pre-commit
+        uses: actions/setup-python@v3
+
+      - name: Run pre-commit checks
+        uses: pre-commit/action@v3.0.0
+
       - name: Log in to the Container registry
         uses: docker/login-action@bc135a1993a1d0db3e9debefa0cfcb70443cc94c
         with:
