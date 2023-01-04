@@ -5,6 +5,10 @@
         {
             "packageNames": ["@types/react", "@types/react-dom"],
             "groupName": "react monorepo"
+        },
+        {
+            "matchManagers": ["github-actions"],
+            "automerge": true
         }
     ]
 }
