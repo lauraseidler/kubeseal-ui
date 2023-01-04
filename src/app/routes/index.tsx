@@ -68,6 +68,7 @@ export default function Index() {
                                     name="cluster"
                                     value={environment.name}
                                     id={`cluster-${environment.name}`}
+                                    required
                                 />
 
                                 <label
@@ -91,6 +92,7 @@ export default function Index() {
                         id="scope-strict"
                         onChange={(e) => setIsClusterWide(!e.target.checked)}
                         defaultChecked
+                        required
                     />
 
                     <label className="label-inline" htmlFor="scope-strict">
@@ -104,6 +106,7 @@ export default function Index() {
                         value="cluster-wide"
                         id="scope-cluster-wide"
                         onChange={(e) => setIsClusterWide(e.target.checked)}
+                        required
                     />
 
                     <label
@@ -118,14 +121,19 @@ export default function Index() {
                 {!isClusterWide && (
                     <Fragment>
                         <label htmlFor="namespace">Namespace</label>
-                        <input type="text" id="namespace" name="namespace" />
+                        <input
+                            type="text"
+                            id="namespace"
+                            name="namespace"
+                            required
+                        />
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" name="name" />
+                        <input type="text" id="name" name="name" required />
                     </Fragment>
                 )}
 
                 <label htmlFor="value">Value</label>
-                <input type="text" id="value" name="value" />
+                <input type="text" id="value" name="value" required />
 
                 <input type="submit" value="Encrypt" />
             </Form>
