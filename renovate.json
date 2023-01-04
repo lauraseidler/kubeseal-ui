@@ -1,6 +1,6 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:base"],
+    "extends": ["config:base", ":pinDependencies"],
     "packageRules": [
         {
             "packageNames": ["@types/react", "@types/react-dom"],
