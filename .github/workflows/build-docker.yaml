@@ -28,14 +28,14 @@ jobs:
         uses: pre-commit/action@v3.0.0
 
       - name: Log in to the Container registry
-        uses: docker/login-action@bc135a1993a1d0db3e9debefa0cfcb70443cc94c
+        uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@4eb68bb2ac65309f0a26ed9abf968f9ea36bd29f
+        uses: docker/build-push-action@v3.2.0
         with:
           context: src
           push: ${{ github.ref == 'refs/heads/main' }}
