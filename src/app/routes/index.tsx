@@ -1,3 +1,4 @@
+import { useSearchParams } from '@remix-run/react';
 import { Fragment, useState } from 'react';
 import { ActionFunction, Form, useActionData, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
@@ -47,9 +48,13 @@ export const loader = async () => {
 export default function Index() {
     const environments = useLoaderData<Awaited<ReturnType<typeof loader>>>();
 
+    const [searchParams] = useSearchParams();
+
     const actionData = useActionData();
 
-    const [isClusterWide, setIsClusterWide] = useState(false);
+    const [isClusterWide, setIsClusterWide] = useState(
+        searchParams.get('scope') === 'cluster-wide'
+    );
 
     return (
         <main style={{ padding: '1rem' }}>
@@ -68,6 +73,10 @@ export default function Index() {
                                     name="cluster"
                                     value={environment.name}
                                     id={`cluster-${environment.name}`}
+                                    defaultChecked={
+                                        searchParams.get('cluster') ===
+                                        environment.name.toLowerCase()
+                                    }
                                     required
                                 />
 
@@ -91,7 +100,7 @@ export default function Index() {
                         value="strict"
                         id="scope-strict"
                         onChange={(e) => setIsClusterWide(!e.target.checked)}
-                        defaultChecked
+                        defaultChecked={!isClusterWide}
                         required
                     />
 
@@ -106,6 +115,7 @@ export default function Index() {
                         value="cluster-wide"
                         id="scope-cluster-wide"
                         onChange={(e) => setIsClusterWide(e.target.checked)}
+                        defaultChecked={isClusterWide}
                         required
                     />
 
@@ -125,10 +135,17 @@ export default function Index() {
                             type="text"
                             id="namespace"
                             name="namespace"
+                            defaultValue={searchParams.get('namespace') || ''}
                             required
                         />
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" name="name" required />
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            defaultValue={searchParams.get('name') || ''}
+                            required
+                        />
                     </Fragment>
                 )}
 
