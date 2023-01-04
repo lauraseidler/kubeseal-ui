@@ -15,10 +15,7 @@ async function getEnvironmentsFromGoogleBucket(
     const [files] = await storage.bucket(bucketName).getFiles();
 
     return files.map((file) => ({
-        name: file.metadata.name
-            .replace(/\.\w*$/, '')
-            .replace('-', ' ')
-            .toUpperCase(),
+        name: file.metadata.name.replace(/\.\w*$/, ''),
         path: file.metadata.mediaLink,
     }));
 }

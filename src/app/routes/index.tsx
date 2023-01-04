@@ -75,7 +75,7 @@ export default function Index() {
                                     id={`cluster-${environment.name}`}
                                     defaultChecked={
                                         searchParams.get('cluster') ===
-                                        environment.name.toLowerCase()
+                                        environment.name
                                     }
                                     required
                                 />
