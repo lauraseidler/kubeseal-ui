@@ -9,6 +9,10 @@
         {
             "matchManagers": ["github-actions"],
             "automerge": true
+        },
+        {
+            "matchUpdateTypes": ["minor", "patch", "pin"],
+            "automerge": true
         }
     ]
 }
