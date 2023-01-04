@@ -14,5 +14,6 @@
             "matchUpdateTypes": ["minor", "patch", "pin"],
             "automerge": true
         }
-    ]
+    ],
+    "platformAutomerge": true
 }
