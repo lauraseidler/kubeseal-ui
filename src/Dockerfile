@@ -4,9 +4,11 @@ FROM node:19.4.0-alpine AS base
 RUN apk add --no-cache curl
 
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
-ARG KUBESEAL_VERSION=v0.16.0
-RUN curl -fsSL "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-linux-amd64" \
-    -o /usr/local/bin/kubeseal \
+ARG KUBESEAL_VERSION=v0.19.3
+RUN curl -fsSL "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION#?}-linux-amd64.tar.gz" \
+    -o /tmp/kubeseal.tar.gz \
+    && tar xf /tmp/kubeseal.tar.gz -C /usr/local/bin kubeseal \
+    && rm -rf /tmp/* \
     && chmod a+x /usr/local/bin/kubeseal
 
 WORKDIR /srv
