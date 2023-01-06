@@ -3,8 +3,9 @@ FROM node:19.3.0-alpine AS base
 
 RUN apk add --no-cache curl
 
-ARG KUBESEAL_VERSION=0.16.0
-RUN curl -fsSL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-amd64" \
+# renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
+ARG KUBESEAL_VERSION=v0.16.0
+RUN curl -fsSL "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-linux-amd64" \
     -o /usr/local/bin/kubeseal \
     && chmod a+x /usr/local/bin/kubeseal
 

@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import childProcess from 'child_process';
 import { getEnvironments } from './environment';
 
 interface Options {
@@ -29,7 +29,7 @@ export async function sealSecret(options: Options) {
             `--kubeconfig /dev/null`,
         ];
 
-        exec(
+        childProcess.exec(
             `echo -n '${options.value}' | kubeseal ${flags.join(' ')}`,
             (error, stdout) => {
                 if (error) {
