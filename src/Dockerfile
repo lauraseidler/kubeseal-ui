@@ -1,5 +1,5 @@
 # BASE
-FROM node:19.8.1-alpine AS base
+FROM node:19.9.0-alpine AS base
 
 RUN apk add --no-cache curl
 
