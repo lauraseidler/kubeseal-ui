@@ -4,7 +4,7 @@ FROM node:19.9.0-alpine AS base
 RUN apk add --no-cache curl
 
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
-ARG KUBESEAL_VERSION=v0.20.2
+ARG KUBESEAL_VERSION=v0.20.3
 RUN curl -fsSL "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION#?}-linux-amd64.tar.gz" \
     -o /tmp/kubeseal.tar.gz \
     && tar xf /tmp/kubeseal.tar.gz -C /usr/local/bin kubeseal \
