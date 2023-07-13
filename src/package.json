@@ -8,7 +8,7 @@
         "start": "remix-serve build"
     },
     "dependencies": {
-        "@google-cloud/storage": "6.11.0",
+        "@google-cloud/storage": "6.12.0",
         "@remix-run/react": "1.18.1",
         "@remix-run/serve": "1.18.1",
         "react": "18.2.0",
