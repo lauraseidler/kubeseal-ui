@@ -1,7 +1,10 @@
 # BASE
-FROM node:20.4.0-alpine AS base
+# Do not use an alpine image (https://martinheinz.dev/blog/92)
+FROM node:20.4.0-bookworm-slim AS base
 
-RUN apk add --no-cache curl
+RUN apt-get update && apt-get install -y \
+    curl \
+    dumb-init
 
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
 ARG KUBESEAL_VERSION=v0.22.0
@@ -35,4 +38,5 @@ RUN npm ci --only=production
 COPY --from=build /srv/build /srv/build
 COPY --from=build /srv/public /srv/public
 
-CMD [ "npm", "start" ]
+# https://engineeringblog.yelp.com/2016/01/dumb-init-an-init-for-docker.html
+CMD [ "dumb-init", "./node_modules/.bin/remix-serve", "build" ]
