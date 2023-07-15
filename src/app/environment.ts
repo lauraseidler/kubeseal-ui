@@ -8,7 +8,7 @@ export type Environment = {
 };
 
 async function getEnvironmentsFromGoogleBucket(
-    bucketName: string
+    bucketName: string,
 ): Promise<Environment[]> {
     const storage = new Storage();
 
