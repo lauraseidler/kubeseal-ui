@@ -13,7 +13,7 @@ export async function sealSecret(options: Options) {
     const environments = await getEnvironments();
 
     const matchingEnvironment = environments.find(
-        (environment) => environment.name === options.cluster
+        (environment) => environment.name === options.cluster,
     )!;
 
     return new Promise<string>((resolve, reject) => {
@@ -37,7 +37,7 @@ export async function sealSecret(options: Options) {
                 }
 
                 return resolve(stdout);
-            }
+            },
         );
     });
 }

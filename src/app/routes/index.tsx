@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     invariant(
         typeof cluster === 'string' && !!cluster,
-        'Please select a cluster'
+        'Please select a cluster',
     );
 
     invariant(typeof scope === 'string' && !!scope, 'Please select a scope');
@@ -29,18 +29,18 @@ export const action: ActionFunction = async ({ request }) => {
     invariant(
         (typeof namespace === 'string' && !!namespace) ||
             (namespace === null && scope !== 'strict'),
-        'Please provide the secret namespace'
+        'Please provide the secret namespace',
     );
 
     invariant(
         (typeof name === 'string' && !!name) ||
             (name === null && scope !== 'strict'),
-        'Please provide the secret name'
+        'Please provide the secret name',
     );
 
     invariant(
         typeof value === 'string' && !!value,
-        'Please provide the secret value'
+        'Please provide the secret value',
     );
 
     return sealSecret({ cluster, scope, namespace, name, value });
@@ -58,7 +58,7 @@ export default function Index() {
     const actionData = useActionData();
 
     const [isClusterWide, setIsClusterWide] = useState(
-        searchParams.get('scope') === 'cluster-wide'
+        searchParams.get('scope') === 'cluster-wide',
     );
 
     return (
