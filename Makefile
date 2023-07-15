@@ -1,4 +1,4 @@
-init: install chown start logs
+init: build install chown start logs
 
 start:
 	docker-compose up -d
@@ -8,6 +8,9 @@ stop:
 
 logs:
 	docker-compose logs -f
+
+build:
+	docker-compose build ui
 
 install:
 	docker-compose run --rm ui npm install
