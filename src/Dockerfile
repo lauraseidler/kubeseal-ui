@@ -4,7 +4,8 @@ FROM node:20.4.0-bookworm-slim AS base
 
 RUN apt-get update && apt-get install -y \
     curl \
-    dumb-init
+    dumb-init \
+    procps
 
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
 ARG KUBESEAL_VERSION=v0.22.0

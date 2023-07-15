@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, V2_MetaFunction } from '@remix-run/node';
 import {
     Links,
     LiveReload,
@@ -23,8 +23,8 @@ export const links: LinksFunction = () => [
     },
 ];
 
-export const meta: MetaFunction = () => {
-    return { title: 'kubeseal UI' };
+export const meta: V2_MetaFunction = () => {
+    return [{ title: 'kubeseal UI' }];
 };
 
 export default function App() {
