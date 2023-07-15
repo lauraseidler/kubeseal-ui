@@ -5,7 +5,7 @@
     "scripts": {
         "build": "remix build",
         "dev": "remix dev",
-        "start": "remix-serve build"
+        "start": "echo 'Do not use - see Dockerfile'"
     },
     "dependencies": {
         "@google-cloud/storage": "6.12.0",
