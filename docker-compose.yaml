@@ -13,8 +13,8 @@ services:
       - run
       - dev
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/credentials.json
-      BUCKET_URL: gs://kubeseal-certificates-test
+      # This bucket is public to allow easy testing - use responsibly :)
+      BUCKET_URL: gs://kubeseal-test-certificates
     ports:
       # Main app
       - "3000:3000"
@@ -22,7 +22,6 @@ services:
       - "3001:3001"
     volumes:
       - ./src:/srv
-      - ./credentials.json:/var/secrets/google/credentials.json
       - node-modules:/srv/node_modules
       - remix-build:/srv/build
       - remix-cache:/srv/.cache
