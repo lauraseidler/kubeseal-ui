@@ -39,4 +39,4 @@ COPY --from=build /srv/build /srv/build
 COPY --from=build /srv/public /srv/public
 
 # https://engineeringblog.yelp.com/2016/01/dumb-init-an-init-for-docker.html
-CMD [ "dumb-init", "./node_modules/.bin/remix-serve", "build" ]
+CMD [ "dumb-init", "./node_modules/.bin/remix-serve", "build/index.js" ]
