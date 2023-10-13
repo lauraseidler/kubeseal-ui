@@ -14,7 +14,6 @@ build:
 
 install:
 	docker-compose run --rm ui npm install
-	docker-compose run --rm ui ./node_modules/.bin/remix setup node
 
 chown:
 	docker-compose run --rm ui chown -R 1000:1000 .cache build public/build

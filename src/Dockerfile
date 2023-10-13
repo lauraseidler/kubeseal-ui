@@ -23,7 +23,6 @@ FROM base AS build
 
 COPY package*.json ./
 RUN npm ci
-RUN ./node_modules/.bin/remix setup node
 
 COPY . .
 RUN npm run build
