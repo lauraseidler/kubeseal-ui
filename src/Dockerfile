@@ -2,10 +2,12 @@
 # Do not use an alpine image (https://martinheinz.dev/blog/92)
 FROM node:20.8.0-bookworm-slim AS base
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
     dumb-init \
-    procps
+    procps \
+    && apt-get clean
 
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
 ARG KUBESEAL_VERSION=v0.24.1
@@ -26,7 +28,6 @@ RUN npm ci
 
 COPY . .
 RUN npm run build
-RUN ls -la build
 
 
 # RUNTIME
