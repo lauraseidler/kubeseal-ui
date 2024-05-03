@@ -155,7 +155,13 @@ export default function Index() {
                 )}
 
                 <label htmlFor="value">Value</label>
-                <input type="text" id="value" name="value" required />
+                <input
+                    type="text"
+                    id="value"
+                    name="value"
+                    autocomplete="off"
+                    required
+                />
 
                 <input type="submit" value="Encrypt" />
             </Form>
