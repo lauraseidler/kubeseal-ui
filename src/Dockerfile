@@ -1,6 +1,6 @@
 # BASE
 # Do not use an alpine image (https://martinheinz.dev/blog/92)
-FROM node:20.17.0-bookworm-slim AS base
+FROM node:20.18.0-bookworm-slim AS base
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
