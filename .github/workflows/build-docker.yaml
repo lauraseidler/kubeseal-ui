@@ -24,7 +24,7 @@ jobs:
       - name: Setup Python for pre-commit
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.14"
 
       - name: Run pre-commit checks
         uses: pre-commit/action@v3.0.1
