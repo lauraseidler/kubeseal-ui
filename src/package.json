@@ -8,7 +8,7 @@
         "start": "echo 'Do not use - see Dockerfile'"
     },
     "dependencies": {
-        "@google-cloud/storage": "7.19.0",
+        "@google-cloud/storage": "7.21.0",
         "@remix-run/react": "2.17.5",
         "@remix-run/serve": "2.17.5",
         "react": "18.3.1",
